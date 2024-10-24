@@ -12,4 +12,8 @@ func SetupRoutes(e *echo.Echo) {
 	e.GET("/tasks/:id", controllers.GetTaskById)
 	e.PATCH("/tasks/:id", controllers.UpdateTaskById)
 	e.DELETE("/tasks/:id", controllers.DeleteTaskById)
+
+	e.POST("/login", controllers.Login)
+	e.POST("/register", controllers.Register)
+	e.POST("/logout", controllers.LogOut)
 }
