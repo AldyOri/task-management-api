@@ -6,6 +6,7 @@ import (
 	"time"
 	"todo-app/config"
 	"todo-app/models"
+	dto "todo-app/models/dto"
 	"todo-app/utils"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -26,7 +27,7 @@ import (
 // @Failure 500 {object} map[string]string
 // @Router /auth/login [post]
 func Login(c echo.Context) error {
-	var body models.LoginRequest
+	var body dto.LoginRequest
 	var user models.User
 
 	if err := c.Bind(&body); err != nil {
@@ -128,9 +129,9 @@ func GetMe(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, models.Response{
+	return c.JSON(http.StatusOK, dto.Response{
 		Message: "success",
-		Data: models.UserResponse{
+		Data: dto.UserResponse{
 			ID:        user.ID,
 			Username:  user.Username,
 			Email:     user.Email,

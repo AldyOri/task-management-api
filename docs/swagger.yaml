@@ -32,6 +32,15 @@ definitions:
       user_id:
         type: integer
     type: object
+  models.TaskRequest:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      title:
+        type: string
+    type: object
   models.User:
     properties:
       created_at:
@@ -185,7 +194,7 @@ paths:
         name: task
         required: true
         schema:
-          $ref: '#/definitions/models.Task'
+          $ref: '#/definitions/models.TaskRequest'
       produces:
       - application/json
       responses:
@@ -290,7 +299,7 @@ paths:
         name: task
         required: true
         schema:
-          $ref: '#/definitions/models.Task'
+          $ref: '#/definitions/models.TaskRequest'
       produces:
       - application/json
       responses:

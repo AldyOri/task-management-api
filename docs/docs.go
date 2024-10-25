@@ -225,7 +225,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Task"
+                            "$ref": "#/definitions/models.TaskRequest"
                         }
                     }
                 ],
@@ -389,7 +389,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Task"
+                            "$ref": "#/definitions/models.TaskRequest"
                         }
                     }
                 ],
@@ -478,6 +478,20 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.TaskRequest": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },
