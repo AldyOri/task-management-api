@@ -10,15 +10,17 @@ import (
 func SetupRoutes(e *echo.Echo) {
 	apiGroup := e.Group("/api")
 
-	apiGroup.POST("/tasks", controllers.CreateTask)
-	apiGroup.GET("/tasks", controllers.GetTasks)
-	apiGroup.GET("/tasks/:id", controllers.GetTaskById)
-	apiGroup.PATCH("/tasks/:id", controllers.UpdateTaskById)
-	apiGroup.DELETE("/tasks/:id", controllers.DeleteTaskById)
-
 	authGroup := apiGroup.Group("/auth")
 
 	authGroup.POST("/login", controllers.Login)
 	authGroup.POST("/register", controllers.Register)
 	authGroup.POST("/me", controllers.GetMe, middleware.JWTMiddleware())
+
+	taskGroup := apiGroup.Group("/tasks", middleware.JWTMiddleware())
+
+	taskGroup.POST("", controllers.CreateTask)
+	taskGroup.GET("", controllers.GetTasks)
+	taskGroup.GET("/:id", controllers.GetTaskById)
+	taskGroup.PATCH("/:id", controllers.UpdateTaskById)
+	taskGroup.DELETE("/:id", controllers.DeleteTaskById)
 }

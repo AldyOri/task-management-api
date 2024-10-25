@@ -6,6 +6,7 @@ import (
 	"time"
 	"todo-app/config"
 	"todo-app/models"
+	"todo-app/utils"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
@@ -89,9 +90,12 @@ func Register(c echo.Context) error {
 }
 
 func GetMe(c echo.Context) error {
-	token := c.Get("user").(*jwt.Token)
-	claims := token.Claims.(jwt.MapClaims)
-	userID := claims["user_id"].(float64)
+	userID, err := utils.GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"message": "unauthorized",
+		})
+	}
 
 	var user models.User
 	if err := config.DB.First(&user, uint(userID)).Error; err != nil {
