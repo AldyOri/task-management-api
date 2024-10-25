@@ -110,6 +110,3 @@ Here is an overview of the main endpoints:
 - [GORM](https://gorm.io/)
 - [Swaggo](https://github.com/swaggo/swag)
 
---- 
-
-This `README.md` should guide users to set up, run, and understand your API. Let me know if you'd like any additional details!
