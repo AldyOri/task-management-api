@@ -1,6 +1,6 @@
 # Overview
 
-This is my personal project for me trying to learn how to build a RESTful API, and how to implement JWT for authentication in Go
+This is my personal project of me trying to learn how to build a RESTful API, and how to implement JWT for authentication in Go
 
 # Task Management API
 
