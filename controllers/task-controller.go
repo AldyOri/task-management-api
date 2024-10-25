@@ -4,12 +4,14 @@ import (
 	"net/http"
 	"todo-app/config"
 	"todo-app/models"
+	"todo-app/utils"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
 func CreateTask(c echo.Context) error {
+	userID := utils.GetUserID(c)
 	var task models.Task
 
 	if err := c.Bind(&task); err != nil {
@@ -18,32 +20,55 @@ func CreateTask(c echo.Context) error {
 		})
 	}
 
+	task.UserID = userID
+
 	if err := config.DB.Create(&task).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "could not create task",
 		})
 	}
 
-	return c.JSON(http.StatusCreated, models.Response{Message: "task created", Data: task})
+	return c.JSON(http.StatusCreated, models.Response{Message: "task created", Data: models.TaskResponse{
+		ID:          task.ID,
+		Title:       task.Title,
+		Description: task.Description,
+		Completed:   task.Completed,
+		CreatedAt:   task.CreatedAt,
+		UpdatedAt:   task.UpdatedAt,
+	}})
 }
 
 func GetTasks(c echo.Context) error {
+	userID := utils.GetUserID(c)
 	var tasks []models.Task
 
-	if err := config.DB.Order("id").Find(&tasks).Error; err != nil {
+	if err := config.DB.Where("user_id = ?", userID).Order("id").Find(&tasks).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "could not retrieve tasks",
 		})
 	}
 
-	return c.JSON(http.StatusOK, models.Response{Message: "task retrived", Data: tasks})
+	var taskResponses []models.TaskResponse
+	for _, task := range tasks {
+		taskResponses = append(taskResponses, models.TaskResponse{
+			ID:          task.ID,
+			Title:       task.Title,
+			Description: task.Description,
+			Completed:   task.Completed,
+			CreatedAt:   task.CreatedAt,
+			UpdatedAt:   task.UpdatedAt,
+		})
+	}
+
+	return c.JSON(http.StatusOK, models.Response{Message: "task retrived", Data: taskResponses})
 }
 
 func GetTaskById(c echo.Context) error {
 	var task models.Task
+	userID := utils.GetUserID(c)
 	id := c.Param("id")
 
-	if err := config.DB.First(&task, id).Error; err != nil {
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).First(&task).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, map[string]string{
 				"message": "task not found",
@@ -56,11 +81,19 @@ func GetTaskById(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, models.Response{
 		Message: "success",
-		Data:    task,
+		Data: models.TaskResponse{
+			ID:          task.ID,
+			Title:       task.Title,
+			Description: task.Description,
+			Completed:   task.Completed,
+			CreatedAt:   task.CreatedAt,
+			UpdatedAt:   task.UpdatedAt,
+		},
 	})
 }
 
 func UpdateTaskById(c echo.Context) error {
+	userID := utils.GetUserID(c)
 	id := c.Param("id")
 	var task models.Task
 	var updatedTask models.Task
@@ -71,7 +104,7 @@ func UpdateTaskById(c echo.Context) error {
 		})
 	}
 
-	if err := config.DB.First(&task, id).Error; err != nil {
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).First(&task).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, map[string]string{
 				"message": "task not found",
@@ -89,16 +122,24 @@ func UpdateTaskById(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, models.Response{
-		Message: "task updated",
-		Data:    task,
+		Message: "task updated successfully",
+		Data: models.TaskResponse{
+			ID:          task.ID,
+			Title:       task.Title,
+			Description: task.Description,
+			Completed:   task.Completed,
+			CreatedAt:   task.CreatedAt,
+			UpdatedAt:   task.UpdatedAt,
+		},
 	})
 }
 
 func DeleteTaskById(c echo.Context) error {
+	userID := utils.GetUserID(c)
 	id := c.Param("id")
 	var task models.Task
 
-	if err := config.DB.First(&task, id).Error; err != nil {
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).First(&task).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, map[string]string{
 				"message": "Task not found",
@@ -117,6 +158,13 @@ func DeleteTaskById(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, models.Response{
 		Message: "Task deleted successfully",
-		Data:    task,
+		Data: models.TaskResponse{
+			ID:          task.ID,
+			Title:       task.Title,
+			Description: task.Description,
+			Completed:   task.Completed,
+			CreatedAt:   task.CreatedAt,
+			UpdatedAt:   task.UpdatedAt,
+		},
 	})
 }

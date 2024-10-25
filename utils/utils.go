@@ -5,10 +5,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetUserID(c echo.Context) (uint, error) {
+func GetUserID(c echo.Context) uint {
 	token := c.Get("user").(*jwt.Token)
 	claims := token.Claims.(jwt.MapClaims)
 	userID := claims["user_id"].(float64)
 
-	return uint(userID), nil
+	return uint(userID)
 }

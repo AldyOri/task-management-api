@@ -14,7 +14,7 @@ func SetupRoutes(e *echo.Echo) {
 
 	authGroup.POST("/login", controllers.Login)
 	authGroup.POST("/register", controllers.Register)
-	authGroup.POST("/me", controllers.GetMe, middleware.JWTMiddleware())
+	authGroup.GET("/me", controllers.GetMe, middleware.JWTMiddleware())
 
 	taskGroup := apiGroup.Group("/tasks", middleware.JWTMiddleware())
 

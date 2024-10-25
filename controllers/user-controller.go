@@ -90,12 +90,7 @@ func Register(c echo.Context) error {
 }
 
 func GetMe(c echo.Context) error {
-	userID, err := utils.GetUserID(c)
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{
-			"message": "unauthorized",
-		})
-	}
+	userID := utils.GetUserID(c)
 
 	var user models.User
 	if err := config.DB.First(&user, uint(userID)).Error; err != nil {
@@ -104,17 +99,9 @@ func GetMe(c echo.Context) error {
 		})
 	}
 
-	type UserResponse struct {
-		ID        uint      `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
-	}
-
 	return c.JSON(http.StatusOK, models.Response{
 		Message: "success",
-		Data: UserResponse{
+		Data: models.UserResponse{
 			ID:        user.ID,
 			Username:  user.Username,
 			Email:     user.Email,
