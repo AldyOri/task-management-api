@@ -83,6 +83,7 @@ Here is an overview of the main endpoints:
 
 - `controllers/` - Contains route handler functions for each endpoint.
 - `models/` - Defines data models for GORM and structures for request/response formats.
+- `routes/` - Routes for API endpoint
 - `middleware/` - JWT authentication middleware.
 - `utils/` - Helper functions for extracting user ID from the JWT token.
 - `config/` - Database connection setup and environment variable management.
