@@ -7,13 +7,17 @@ import (
 )
 
 func SetupRoutes(e *echo.Echo) {
-	e.POST("/tasks", controllers.CreateTask)
-	e.GET("/tasks", controllers.GetTasks)
-	e.GET("/tasks/:id", controllers.GetTaskById)
-	e.PATCH("/tasks/:id", controllers.UpdateTaskById)
-	e.DELETE("/tasks/:id", controllers.DeleteTaskById)
+	apiGroup := e.Group("/api")
 
-	e.POST("/login", controllers.Login)
-	e.POST("/register", controllers.Register)
-	e.POST("/logout", controllers.LogOut)
+	apiGroup.POST("/tasks", controllers.CreateTask)
+	apiGroup.GET("/tasks", controllers.GetTasks)
+	apiGroup.GET("/tasks/:id", controllers.GetTaskById)
+	apiGroup.PATCH("/tasks/:id", controllers.UpdateTaskById)
+	apiGroup.DELETE("/tasks/:id", controllers.DeleteTaskById)
+
+	authGroup := apiGroup.Group("/auth")
+	
+	authGroup.POST("/login", controllers.Login)
+	authGroup.POST("/register", controllers.Register)
+	authGroup.POST("/me", controllers.GetMe)
 }

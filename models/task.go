@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Task struct {
 	ID          uint      `json:"id" gorm:"primaryKey;autoIncrement"`

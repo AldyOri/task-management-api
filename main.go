@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"todo-app/config"
-	"todo-app/middleware"
+	// "todo-app/middleware"
 	"todo-app/routes"
 
 	"github.com/joho/godotenv"
@@ -18,7 +18,7 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Use(middleware.JWTMiddleware())
+	// e.Use(middleware.JWTMiddleware())
 	e.Use(echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{
 		Format: "${time_rfc3339} | ${method} | ${uri} | ${status} | ${latency_human} \n",
 	}))
