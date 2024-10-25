@@ -10,6 +10,19 @@ import (
 	"gorm.io/gorm"
 )
 
+
+// CreateTask godoc
+// @Summary Create a new task
+// @Description Create a new task for the authenticated user
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param task body models.Task true "Task"
+// @Success 201 {object} models.Response
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /tasks [post]
 func CreateTask(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	var task models.Task
@@ -38,6 +51,15 @@ func CreateTask(c echo.Context) error {
 	}})
 }
 
+// GetTasks godoc
+// @Summary Get all tasks
+// @Description Get all tasks for the authenticated user
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} models.Response
+// @Failure 500 {object} map[string]string
+// @Router /tasks [get]
 func GetTasks(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	var tasks []models.Task
@@ -63,6 +85,17 @@ func GetTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, models.Response{Message: "task retrived", Data: taskResponses})
 }
 
+// GetTaskById godoc
+// @Summary Get a task by ID
+// @Description Get a task by ID for the authenticated user
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Success 200 {object} models.Response
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /tasks/{id} [get]
 func GetTaskById(c echo.Context) error {
 	var task models.Task
 	userID := utils.GetUserID(c)
@@ -92,6 +125,20 @@ func GetTaskById(c echo.Context) error {
 	})
 }
 
+// UpdateTaskById godoc
+// @Summary Update a task by ID
+// @Description Update a task by ID for the authenticated user
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Param task body models.Task true "Task"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /tasks/{id} [patch]
 func UpdateTaskById(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	id := c.Param("id")
@@ -134,6 +181,17 @@ func UpdateTaskById(c echo.Context) error {
 	})
 }
 
+// DeleteTaskById godoc
+// @Summary Delete a task by ID
+// @Description Delete a task by ID for the authenticated user
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Success 200 {object} models.Response
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /tasks/{id} [delete]
 func DeleteTaskById(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	id := c.Param("id")

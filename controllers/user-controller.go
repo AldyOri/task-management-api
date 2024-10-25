@@ -13,11 +13,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login godoc
+// @Summary Login a user
+// @Description Authenticate a user and return a JWT token
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param login body models.LoginRequest true "Login"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/login [post]
 func Login(c echo.Context) error {
-	var body struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
+	var body models.LoginRequest
 	var user models.User
 
 	if err := c.Bind(&body); err != nil {
@@ -62,6 +71,17 @@ func Login(c echo.Context) error {
 	})
 }
 
+// Register godoc
+// @Summary Register a new user
+// @Description Create a new user account
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param register body models.User true "Register"
+// @Success 201 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/register [post]
 func Register(c echo.Context) error {
 	var user models.User
 	if err := c.Bind(&user); err != nil {
@@ -89,6 +109,15 @@ func Register(c echo.Context) error {
 	})
 }
 
+// GetMe godoc
+// @Summary Get current user
+// @Description Get details of the authenticated user
+// @Tags auth
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} models.Response
+// @Failure 500 {object} map[string]string
+// @Router /auth/me [get]
 func GetMe(c echo.Context) error {
 	userID := utils.GetUserID(c)
 

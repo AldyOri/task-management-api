@@ -2,12 +2,17 @@ package routes
 
 import (
 	"todo-app/controllers"
+	_ "todo-app/docs"
 	"todo-app/middleware"
 
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 func SetupRoutes(e *echo.Echo) {
+    e.GET("/swagger/*", echoSwagger.WrapHandler)
+
+
 	apiGroup := e.Group("/api")
 
 	authGroup := apiGroup.Group("/auth")
