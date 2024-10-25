@@ -1,16 +1,25 @@
 basePath: /api
 definitions:
-  models.LoginRequest:
+  dto.LoginRequest:
     properties:
       email:
         type: string
       password:
         type: string
     type: object
-  models.Response:
+  dto.Response:
     properties:
       data: {}
       message:
+        type: string
+    type: object
+  dto.TaskRequest:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      title:
         type: string
     type: object
   models.Task:
@@ -31,15 +40,6 @@ definitions:
         $ref: '#/definitions/models.User'
       user_id:
         type: integer
-    type: object
-  models.TaskRequest:
-    properties:
-      completed:
-        type: boolean
-      description:
-        type: string
-      title:
-        type: string
     type: object
   models.User:
     properties:
@@ -75,7 +75,7 @@ paths:
         name: login
         required: true
         schema:
-          $ref: '#/definitions/models.LoginRequest'
+          $ref: '#/definitions/dto.LoginRequest'
       produces:
       - application/json
       responses:
@@ -115,7 +115,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "500":
           description: Internal Server Error
           schema:
@@ -172,7 +172,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "500":
           description: Internal Server Error
           schema:
@@ -194,14 +194,14 @@ paths:
         name: task
         required: true
         schema:
-          $ref: '#/definitions/models.TaskRequest'
+          $ref: '#/definitions/dto.TaskRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "400":
           description: Bad Request
           schema:
@@ -234,7 +234,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "404":
           description: Not Found
           schema:
@@ -266,7 +266,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "404":
           description: Not Found
           schema:
@@ -299,14 +299,14 @@ paths:
         name: task
         required: true
         schema:
-          $ref: '#/definitions/models.TaskRequest'
+          $ref: '#/definitions/dto.TaskRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/dto.Response'
         "400":
           description: Bad Request
           schema:

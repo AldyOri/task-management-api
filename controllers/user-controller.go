@@ -20,7 +20,7 @@ import (
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param login body models.LoginRequest true "Login"
+// @Param login body dto.LoginRequest true "Login"
 // @Success 200 {object} map[string]string
 // @Failure 400 {object} map[string]string
 // @Failure 404 {object} map[string]string
@@ -116,7 +116,7 @@ func Register(c echo.Context) error {
 // @Tags auth
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} models.Response
+// @Success 200 {object} dto.Response
 // @Failure 500 {object} map[string]string
 // @Router /auth/me [get]
 func GetMe(c echo.Context) error {

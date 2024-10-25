@@ -20,7 +20,7 @@ import (
 // @Produce json
 // @Security BearerAuth
 // @Param task body dto.TaskRequest true "Task"
-// @Success 201 {object} models.Response
+// @Success 201 {object} dto.Response
 // @Failure 400 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /tasks [post]
@@ -62,7 +62,7 @@ func CreateTask(c echo.Context) error {
 // @Tags tasks
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} models.Response
+// @Success 200 {object} dto.Response
 // @Failure 500 {object} map[string]string
 // @Router /tasks [get]
 func GetTasks(c echo.Context) error {
@@ -97,7 +97,7 @@ func GetTasks(c echo.Context) error {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Task ID"
-// @Success 200 {object} models.Response
+// @Success 200 {object} dto.Response
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /tasks/{id} [get]
@@ -139,7 +139,7 @@ func GetTaskById(c echo.Context) error {
 // @Security BearerAuth
 // @Param id path string true "Task ID"
 // @Param task body dto.TaskRequest true "Task"
-// @Success 200 {object} models.Response
+// @Success 200 {object} dto.Response
 // @Failure 400 {object} map[string]string
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
@@ -193,7 +193,7 @@ func UpdateTaskById(c echo.Context) error {
 // @Produce json
 // @Security BearerAuth
 // @Param id path string true "Task ID"
-// @Success 200 {object} models.Response
+// @Success 200 {object} dto.Response
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /tasks/{id} [delete]

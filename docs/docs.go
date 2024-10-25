@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.LoginRequest"
+                            "$ref": "#/definitions/dto.LoginRequest"
                         }
                     }
                 ],
@@ -98,7 +98,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "500": {
@@ -187,7 +187,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "500": {
@@ -225,7 +225,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TaskRequest"
+                            "$ref": "#/definitions/dto.TaskRequest"
                         }
                     }
                 ],
@@ -233,7 +233,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "400": {
@@ -285,7 +285,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "404": {
@@ -335,7 +335,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "404": {
@@ -389,7 +389,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TaskRequest"
+                            "$ref": "#/definitions/dto.TaskRequest"
                         }
                     }
                 ],
@@ -397,7 +397,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "400": {
@@ -432,7 +432,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.LoginRequest": {
+        "dto.LoginRequest": {
             "type": "object",
             "properties": {
                 "email": {
@@ -443,11 +443,25 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Response": {
+        "dto.Response": {
             "type": "object",
             "properties": {
                 "data": {},
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TaskRequest": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -478,20 +492,6 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
-                }
-            }
-        },
-        "models.TaskRequest": {
-            "type": "object",
-            "properties": {
-                "completed": {
-                    "type": "boolean"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
                 }
             }
         },

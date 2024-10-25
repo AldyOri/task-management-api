@@ -26,7 +26,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.LoginRequest"
+                            "$ref": "#/definitions/dto.LoginRequest"
                         }
                     }
                 ],
@@ -89,7 +89,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "500": {
@@ -178,7 +178,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "500": {
@@ -216,7 +216,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TaskRequest"
+                            "$ref": "#/definitions/dto.TaskRequest"
                         }
                     }
                 ],
@@ -224,7 +224,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "400": {
@@ -276,7 +276,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "404": {
@@ -326,7 +326,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "404": {
@@ -380,7 +380,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.TaskRequest"
+                            "$ref": "#/definitions/dto.TaskRequest"
                         }
                     }
                 ],
@@ -388,7 +388,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/dto.Response"
                         }
                     },
                     "400": {
@@ -423,7 +423,7 @@
         }
     },
     "definitions": {
-        "models.LoginRequest": {
+        "dto.LoginRequest": {
             "type": "object",
             "properties": {
                 "email": {
@@ -434,11 +434,25 @@
                 }
             }
         },
-        "models.Response": {
+        "dto.Response": {
             "type": "object",
             "properties": {
                 "data": {},
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TaskRequest": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -469,20 +483,6 @@
                 },
                 "user_id": {
                     "type": "integer"
-                }
-            }
-        },
-        "models.TaskRequest": {
-            "type": "object",
-            "properties": {
-                "completed": {
-                    "type": "boolean"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
                 }
             }
         },
