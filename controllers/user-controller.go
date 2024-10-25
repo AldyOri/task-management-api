@@ -6,7 +6,7 @@ import (
 	"time"
 	"todo-app/config"
 	"todo-app/models"
-	dto "todo-app/models/dto"
+	"todo-app/models/dto"
 	"todo-app/utils"
 
 	"github.com/golang-jwt/jwt/v5"

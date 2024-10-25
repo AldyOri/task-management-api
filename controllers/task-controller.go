@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"todo-app/config"
 	"todo-app/models"
-	dto "todo-app/models/dto"
+	"todo-app/models/dto"
 	"todo-app/utils"
 
 	"github.com/labstack/echo/v4"
