@@ -9,11 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type Response struct {
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
-}
-
 func CreateTask(c echo.Context) error {
 	var task models.Task
 
@@ -29,7 +24,7 @@ func CreateTask(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusCreated, Response{Message: "task created", Data: task})
+	return c.JSON(http.StatusCreated, models.Response{Message: "task created", Data: task})
 }
 
 func GetTasks(c echo.Context) error {
@@ -41,7 +36,7 @@ func GetTasks(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, Response{Message: "task retrived", Data: tasks})
+	return c.JSON(http.StatusOK, models.Response{Message: "task retrived", Data: tasks})
 }
 
 func GetTaskById(c echo.Context) error {
@@ -59,7 +54,7 @@ func GetTaskById(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, Response{
+	return c.JSON(http.StatusOK, models.Response{
 		Message: "success",
 		Data:    task,
 	})
@@ -93,7 +88,7 @@ func UpdateTaskById(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, Response{
+	return c.JSON(http.StatusOK, models.Response{
 		Message: "task updated",
 		Data:    task,
 	})
@@ -120,8 +115,8 @@ func DeleteTaskById(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, Response{
+	return c.JSON(http.StatusOK, models.Response{
 		Message: "Task deleted successfully",
-		Data: task,
+		Data:    task,
 	})
 }

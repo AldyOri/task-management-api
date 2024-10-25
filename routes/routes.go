@@ -2,6 +2,7 @@ package routes
 
 import (
 	"todo-app/controllers"
+	"todo-app/middleware"
 
 	"github.com/labstack/echo/v4"
 )
@@ -16,8 +17,8 @@ func SetupRoutes(e *echo.Echo) {
 	apiGroup.DELETE("/tasks/:id", controllers.DeleteTaskById)
 
 	authGroup := apiGroup.Group("/auth")
-	
+
 	authGroup.POST("/login", controllers.Login)
 	authGroup.POST("/register", controllers.Register)
-	authGroup.POST("/me", controllers.GetMe)
+	authGroup.POST("/me", controllers.GetMe, middleware.JWTMiddleware())
 }

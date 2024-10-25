@@ -44,11 +44,9 @@ func Login(c echo.Context) error {
 		})
 	}
 	claims := jwt.MapClaims{
-		"user_id":  user.ID,
-		"username": user.Username,
-		"email":    user.Email,
-		"exp":      time.Now().Add(time.Hour * 24 * 7).Unix(),
-		"iat":      time.Now().Unix(),
+		"user_id": user.ID,
+		"exp":     time.Now().Add(time.Hour * 24 * 7).Unix(),
+		"iat":     time.Now().Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(jwtSecret))
@@ -91,5 +89,33 @@ func Register(c echo.Context) error {
 }
 
 func GetMe(c echo.Context) error {
-	return nil
+	token := c.Get("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	userID := claims["user_id"].(float64)
+
+	var user models.User
+	if err := config.DB.First(&user, uint(userID)).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "could not retrieve user",
+		})
+	}
+
+	type UserResponse struct {
+		ID        uint      `json:"id"`
+		Username  string    `json:"username"`
+		Email     string    `json:"email"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
+	}
+
+	return c.JSON(http.StatusOK, models.Response{
+		Message: "success",
+		Data: UserResponse{
+			ID:        user.ID,
+			Username:  user.Username,
+			Email:     user.Email,
+			CreatedAt: user.CreatedAt,
+			UpdatedAt: user.UpdatedAt,
+		},
+	})
 }
