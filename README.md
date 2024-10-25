@@ -53,13 +53,13 @@ JWT_SECRET=<jwt-secret>
    go run main.go
    ```
 
-The API should now be running at `http://localhost:8080`.
+The API should now be running at `http://localhost:8000`.
 
 ### API Documentation
 
 The Swagger documentation is available at:
 
-- **Swagger UI**: `http://localhost:8080/swagger/index.html`
+- **Swagger UI**: `http://localhost:8000/swagger/index.html`
 
 The documentation includes all API endpoints and allows testing directly in the browser. The JWT token should be set in the `Authorization` header using the "Bearer" scheme to test authenticated endpoints.
 
