@@ -22,6 +22,23 @@ definitions:
       title:
         type: string
     type: object
+  models.Image:
+    properties:
+      content_type:
+        type: string
+      created_at:
+        type: string
+      data:
+        items:
+          type: integer
+        type: array
+      filename:
+        type: string
+      id:
+        type: integer
+      task_id:
+        type: integer
+    type: object
   models.Task:
     properties:
       completed:
@@ -32,6 +49,10 @@ definitions:
         type: string
       id:
         type: integer
+      images:
+        items:
+          $ref: '#/definitions/models.Image'
+        type: array
       title:
         type: string
       updated_at:
@@ -163,6 +184,60 @@ paths:
       summary: Register a new user
       tags:
       - auth
+  /images/{id}:
+    delete:
+      description: Delete an image by its ID
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete an image by ID
+      tags:
+      - images
+    get:
+      description: Retrieve an image by its ID
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - image/jpeg
+      - image/png
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get an image by ID
+      tags:
+      - images
   /tasks:
     get:
       description: Get all tasks for the authenticated user
@@ -330,6 +405,53 @@ paths:
       summary: Update a task by ID
       tags:
       - tasks
+  /tasks/{task_id}/images:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload an image for a specific task. The image muse be a JPEG or
+        PNG file and must not exceed 10 MB size.
+      parameters:
+      - description: Task ID
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Image file
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "502":
+          description: Bad Gateway
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Upload an image
+      tags:
+      - images
 securityDefinitions:
   BearerAuth:
     description: 'In value field type "Bearer" followed by a space and the JWT token.

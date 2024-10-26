@@ -79,6 +79,11 @@ Here is an overview of the main endpoints:
 - **PATCH** `/api/tasks/:id` - Update a specific task by its ID.
 - **DELETE** `/api/tasks/:id` - Delete a specific task by its ID.
 
+#### Image Routes
+- **POST** `/api/tasks/:task_id/images` - Upload an image for a specific task. (requires JWT).
+- **GET**  `/api/images/:id` - Retrieve a specific image by its ID.
+- **DELETE**  `/api/images/:id` - Delete a specific image by its ID.
+
 ### Project Structure
 
 - `controllers/` - Contains route handler functions for each endpoint.

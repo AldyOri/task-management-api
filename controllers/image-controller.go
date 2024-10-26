@@ -11,6 +11,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// UploadImage godoc
+// @Summary Upload an image
+// @Description Upload an image for a specific task. The image muse be a JPEG or PNG file and must not exceed 10 MB size.
+// @Tags images
+// @Accept multipart/form-data
+// @Produce json
+// @Security BearerAuth
+// @Param task_id path string true "Task ID"
+// @Param image formData file true "Image file"
+// @Success 200 {object} dto.Response
+// @Failure 400 {object} map[string]string
+// @Failure 502 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /tasks/{task_id}/images [post]
 func UploadImage(c echo.Context) error {
 	taskID, err := utils.GetTaskID(c)
 	if err != nil {
@@ -65,6 +79,16 @@ func UploadImage(c echo.Context) error {
 	})
 }
 
+// GetImageByID godoc
+// @Summary Get an image by ID
+// @Description Retrieve an image by its ID
+// @Tags images
+// @Produce image/jpeg
+// @Produce image/png
+// @Param id path string true "Image ID"
+// @Success 200 {file} file
+// @Failure 404 {object} map[string]string
+// @Router /images/{id} [get]
 func GetImageByID(c echo.Context) error {
 	var image models.Image
 	id := c.Param("id")
@@ -75,12 +99,21 @@ func GetImageByID(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, dto.Response{
-		Message: "success",
-		Data:    image,
-	})
+	c.Response().Header().Set("Content-Type", image.ContentType)
+    c.Response().Header().Set("Content-Disposition", "inline; filename="+image.Filename)
+
+	return c.Blob(http.StatusOK, image.ContentType, image.Data)
 }
 
+// DeleteImageByID godoc
+// @Summary Delete an image by ID
+// @Description Delete an image by its ID
+// @Tags images
+// @Param id path string true "Image ID"
+// @Success 200 {object} dto.Response
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /images/{id} [delete]
 func DeleteImageByID(c echo.Context) error {
 	var image models.Image
 	id := c.Param("id")
