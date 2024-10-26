@@ -9,6 +9,7 @@ type Task struct {
 	Completed   bool      `json:"completed" gorm:"default:false"`
 	UserID      uint      `json:"user_id"`
 	User        User      `json:"user" gorm:"foreignKey:UserID;references:ID"`
+	Images      []Image   `json:"images" gorm:"foreignKey:TaskID"`
 	CreatedAt   time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }

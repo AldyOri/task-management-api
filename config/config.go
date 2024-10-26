@@ -22,5 +22,5 @@ func Connect() {
 }
 
 func Migrate() {
-	DB.AutoMigrate(&models.Task{}, &models.User{})
+	DB.AutoMigrate(&models.Task{}, &models.User{}, &models.Image{})
 }

@@ -5,12 +5,12 @@ import (
 	"todo-app/config"
 	"todo-app/models"
 	"todo-app/models/dto"
+	dtoImage "todo-app/models/dto/dto-image"
 	"todo-app/utils"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
-
 
 // CreateTask godoc
 // @Summary Create a new task
@@ -69,18 +69,29 @@ func GetTasks(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	var tasks []models.Task
 
-	if err := config.DB.Where("user_id = ?", userID).Order("id").Find(&tasks).Error; err != nil {
+	if err := config.DB.Where("user_id = ?", userID).Order("id").Preload("Images").Find(&tasks).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "could not retrieve tasks",
 		})
 	}
 
-	var taskResponses []dto.TaskResponse
+	taskResponses := []dto.TaskResponse{}
 	for _, task := range tasks {
+		var imageResponses []dtoImage.ImageResponse
+		for _, image := range task.Images {
+			imageResponses = append(imageResponses, dtoImage.ImageResponse{
+				ID:          image.ID,
+				Filename:    image.Filename,
+				ContentType: image.ContentType,
+				CreatedAt:   image.CreatedAt,
+			})
+		}
+
 		taskResponses = append(taskResponses, dto.TaskResponse{
 			ID:          task.ID,
 			Title:       task.Title,
 			Description: task.Description,
+			Images:      imageResponses,
 			Completed:   task.Completed,
 			CreatedAt:   task.CreatedAt,
 			UpdatedAt:   task.UpdatedAt,
@@ -106,7 +117,7 @@ func GetTaskById(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	id := c.Param("id")
 
-	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).First(&task).Error; err != nil {
+	if err := config.DB.Where("user_id = ? AND id = ?", userID, id).Preload("Images").First(&task).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, map[string]string{
 				"message": "task not found",
@@ -117,12 +128,23 @@ func GetTaskById(c echo.Context) error {
 		})
 	}
 
+	imageResponse := []dtoImage.ImageResponse{}
+	for _, image := range task.Images {
+		imageResponse = append(imageResponse, dtoImage.ImageResponse{
+			ID:          image.ID,
+			Filename:    image.Filename,
+			ContentType: image.ContentType,
+			CreatedAt:   image.CreatedAt,
+		})
+	}
+
 	return c.JSON(http.StatusOK, dto.Response{
 		Message: "success",
 		Data: dto.TaskResponse{
 			ID:          task.ID,
 			Title:       task.Title,
 			Description: task.Description,
+			Images:      imageResponse,
 			Completed:   task.Completed,
 			CreatedAt:   task.CreatedAt,
 			UpdatedAt:   task.UpdatedAt,
