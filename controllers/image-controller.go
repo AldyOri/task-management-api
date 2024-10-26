@@ -99,6 +99,11 @@ func DeleteImageByID(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.Response{
 		Message: "image deleted successfully",
-		Data:    image,
+		Data: dtoImage.ImageResponse{
+			ID:          image.ID,
+			Filename:    image.Filename,
+			ContentType: image.ContentType,
+			CreatedAt:   image.CreatedAt,
+		},
 	})
 }
