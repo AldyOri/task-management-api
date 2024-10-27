@@ -75,7 +75,7 @@ Here is an overview of the main endpoints:
 #### Task Routes (Protected)
 - **POST** `/api/tasks` - Create a new task.
 - **GET** `/api/tasks` - Retrieve all tasks for the authenticated user.
-  - `completed` (bool): Filter tasks by completion status (true or false).
+  - `/api/tasks?completed=<bool>` (optional): Filter tasks by completion status (true or false).
 - **GET** `/api/tasks/:id` - Retrieve a specific task by its ID.
 - **PATCH** `/api/tasks/:id` - Update a specific task by its ID.
 - **DELETE** `/api/tasks/:id` - Delete a specific task by its ID.
