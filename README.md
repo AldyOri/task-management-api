@@ -75,6 +75,7 @@ Here is an overview of the main endpoints:
 #### Task Routes (Protected)
 - **POST** `/api/tasks` - Create a new task.
 - **GET** `/api/tasks` - Retrieve all tasks for the authenticated user.
+  - `completed` (bool): Filter tasks by completion status (true or false).
 - **GET** `/api/tasks/:id` - Retrieve a specific task by its ID.
 - **PATCH** `/api/tasks/:id` - Update a specific task by its ID.
 - **DELETE** `/api/tasks/:id` - Delete a specific task by its ID.
@@ -89,8 +90,8 @@ Here is an overview of the main endpoints:
 - `controllers/` - Contains route handler functions for each endpoint.
 - `models/` - Defines data models for GORM and structures for request/response formats.
 - `routes/` - Routes for API endpoint
-- `middleware/` - JWT authentication middleware.
-- `utils/` - Helper functions for extracting user ID from the JWT token.
+- `middleware/` - JWT authentication and image middleware.
+- `utils/` - Helper functions for extracting user ID from the JWT token and extracting task ID from route params.
 - `config/` - Database connection setup and environment variable management.
 - `docs/` - Documentation for the API.
 

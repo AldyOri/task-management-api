@@ -240,7 +240,13 @@ paths:
       - images
   /tasks:
     get:
-      description: Get all tasks for the authenticated user
+      description: Get all tasks for the authenticated user, with optional filtering
+        by completion status.
+      parameters:
+      - description: Filter by task completion status (true or false)
+        in: query
+        name: completed
+        type: boolean
       produces:
       - application/json
       responses:
@@ -248,8 +254,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.Response'
+        "400":
+          description: Invalid 'completed' parameter
+          schema:
+            additionalProperties:
+              type: string
+            type: object
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             additionalProperties:
               type: string

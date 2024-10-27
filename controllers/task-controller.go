@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 	"todo-app/config"
 	"todo-app/models"
 	"todo-app/models/dto"
@@ -58,18 +59,33 @@ func CreateTask(c echo.Context) error {
 
 // GetTasks godoc
 // @Summary Get all tasks
-// @Description Get all tasks for the authenticated user
+// @Description Get all tasks for the authenticated user, with optional filtering by completion status.
 // @Tags tasks
 // @Produce json
+// @Param completed query bool false "Filter by task completion status (true or false)"
 // @Security BearerAuth
 // @Success 200 {object} dto.Response
-// @Failure 500 {object} map[string]string
+// @Failure 400 {object} map[string]string "Invalid 'completed' parameter"
+// @Failure 500 {object} map[string]string "Internal server error"
 // @Router /tasks [get]
 func GetTasks(c echo.Context) error {
 	userID := utils.GetUserID(c)
 	var tasks []models.Task
 
-	if err := config.DB.Where("user_id = ?", userID).Order("id").Preload("Images").Find(&tasks).Error; err != nil {
+	query := config.DB.Where("user_id = ?", userID)
+
+	completedParam := c.QueryParam("completed")
+	if completedParam != "" {
+		completed, err := strconv.ParseBool(completedParam)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"message": "Invalid value for 'completed' parameter. Use true or false.",
+			})
+		}
+		query = query.Where("completed = ?", completed)
+	}
+
+	if err := query.Order("id").Preload("Images").Find(&tasks).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "could not retrieve tasks",
 		})

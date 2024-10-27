@@ -256,7 +256,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Get all tasks for the authenticated user",
+                "description": "Get all tasks for the authenticated user, with optional filtering by completion status.",
                 "produces": [
                     "application/json"
                 ],
@@ -264,6 +264,14 @@ const docTemplate = `{
                     "tasks"
                 ],
                 "summary": "Get all tasks",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "Filter by task completion status (true or false)",
+                        "name": "completed",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -271,8 +279,17 @@ const docTemplate = `{
                             "$ref": "#/definitions/dto.Response"
                         }
                     },
+                    "400": {
+                        "description": "Invalid 'completed' parameter",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
