@@ -62,6 +62,9 @@ The Swagger documentation is available at:
 - **Swagger UI**: `http://localhost:8000/swagger/index.html`
 
 The documentation includes all API endpoints and allows testing directly in the browser. The JWT token should be set in the `Authorization` header using the "Bearer" scheme to test authenticated endpoints.
+The documentation should look like this :
+
+![swagger docs](assets/screenshoots/swagger.png)
 
 ### Endpoints
 
