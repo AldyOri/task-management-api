@@ -91,6 +91,12 @@ func Register(c echo.Context) error {
 		})
 	}
 
+	if user.Username == "" || user.Email == "" || user.Password == "" {
+        return c.JSON(http.StatusBadRequest, map[string]string{
+            "message": "username, email, and password are required",
+        })
+    }
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
